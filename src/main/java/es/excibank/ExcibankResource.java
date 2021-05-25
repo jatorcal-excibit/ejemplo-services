@@ -8,8 +8,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 
 import es.excibank.service.ExcibankService;
 
