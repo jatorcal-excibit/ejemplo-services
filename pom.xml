@@ -17,6 +17,7 @@
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.platform.version>1.13.4.Final</quarkus.platform.version>
     <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
+	<spring.version>4.3.11.RELEASE</surefire-plugin.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -48,6 +49,20 @@
       <artifactId>rest-assured</artifactId>
       <scope>test</scope>
     </dependency>
+	
+
+	<!-- SPRING -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-core</artifactId>
+		<version>${spring.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-web</artifactId>
+		<version>${spring.version}</version>
+	</dependency>
+	
   </dependencies>
   <build>
     <plugins>
