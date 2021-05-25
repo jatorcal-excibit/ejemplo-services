@@ -1,0 +1,184 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>es.excibank</groupId>
+	<artifactId>ejemplo-services-test-api</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<parent>
+		<groupId>es.excibit</groupId>
+		<artifactId>happi-parent</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<environment.property>${environment.property}</environment.property>
+		<test-support-common>1.0.0</test-support-common>
+		<!--mockserver-lib.version>1.0.0</mockserver-lib.version-->
+		
+		<!-- NO SUBIR EL EXAMPLE SIGUIENTE, MANTENER COMENTADO -->
+		<!--environment.property>${project.basedir}\test\resources\environment_example.properties</environment.property-->
+		
+	</properties>
+
+	<dependencies>
+	
+		<!-- Serenity BDD -->
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-jira-plugin</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-cucumber6</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-rest-assured</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- NEEDED FOR JIRA-PLUGIN -->
+		<dependency>
+			<groupId>com.googlecode.lambdaj</groupId>
+			<artifactId>lambdaj</artifactId>
+			<version>2.3.3</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- HAPPI -->
+		<dependency>
+			<groupId>es.excibit</groupId>
+			<artifactId>happi-common</artifactId>
+			<version>${happi-common}</version>
+		</dependency>
+	
+		<!-- JACKSON -->
+	    <dependency>
+	      <groupId>com.fasterxml.jackson.datatype</groupId>
+	      <artifactId>jackson-datatype-jdk8</artifactId>
+	      <version>2.9.6</version>
+	    </dependency>
+		<!-- END JACKSON -->
+
+		<!-- POSTGRESQL -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+		<!-- END POSTGRESQL -->
+		
+
+		<!-- MOCKSERVER-LIB -->
+		<!--dependency>
+			<groupId>es.excibit</groupId>
+			<artifactId>mockserver-api-lib</artifactId>
+			<version>${mockserver-lib.version}</version>
+		</dependency-->
+		<!-- END MOCKSERVER-LIB -->
+		
+		<dependency>
+		    <groupId>io.jsonwebtoken</groupId>
+		    <artifactId>jjwt-jackson</artifactId>
+		    <version>0.10.5</version>
+		</dependency>
+
+		<!-- json-path -->
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<version>2.4.0</version>
+		</dependency>
+		<!-- END json-path -->
+
+
+	</dependencies>
+	<build>
+		<plugins>
+
+			<!-- SERENITYBDD -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<fork>true</fork>
+				</configuration>
+			</plugin>
+
+			<!-- starts a new JVM instance to run the tests -->
+			<plugin>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>${maven-failsafe-plugin.version}</version>
+				<configuration>
+					<includes>
+						<include>**/es/excibit/steps/*.java</include>
+					</includes>
+					<excludes>
+						<exclude>**/es/excibit/serenity/**/*.*</exclude>
+					</excludes>
+					<reuseForks>true</reuseForks>
+					<!--<forkCount>2</forkCount> -->
+					<argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>net.serenity-bdd.maven.plugins</groupId>
+				<artifactId>serenity-maven-plugin</artifactId>
+				<version>${serenity.core.version}</version>
+				<executions>
+					<execution>
+						<id>serenity-reports</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>aggregate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>net.serenity-bdd</groupId>
+						<artifactId>serenity-jira-plugin</artifactId>
+						<version>${serenity.jira.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<!-- plugin de Maven para no parar la ejecución por test fail -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+				<configuration>
+					<systemPropertyVariables>
+						<environment>${environment.property}</environment>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
+
+			<!-- FIN SERENITYBDD -->
+
+		</plugins>
+	</build>
+</project>
