@@ -11,7 +11,7 @@ import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.springframework.http.ResponseEntity;
 
 
-import es.excibit.service.ExcibankService;
+import es.excibank.service.ExcibankService;
 
 @Path("/example")
 @Produces(MediaType.APPLICATION_JSON)
